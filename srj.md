@@ -1,0 +1,45 @@
+
+#### distinct method or group by method mysql  
+### SQL FUNCTIOINS--                 ABS()        ROUND()   DECIMAL()
+## where not equal != or <>
+MySQL case
+
+[Python memory management](https://www.squash.io/how-to-manage-memory-with-python/#:~:text=One%20of%20the%20key%20features,by%20a%20private%20heap%20space)
+
+[3d diagram](https://framerusercontent.com/images/9S5ONFM0rMkYevPCohGGB9iin18.png)
+
+https://www.hackerrank.com/challenges/weather-observation-station-5/problem?isFullScreen=true
+
+```sql
+(select city,char_length(city) from station where char_length(city)>20 or char_length(city)<=3 group by char_length(city),city order by char_length(city) asc,city asc limit 1)union(select city,char_length(city) from station where char_length(city)>20 or char_length(city)<=3 group by char_length(city),city order by char_length(city) desc,city asc limit 1);
+```
+### inner join, outer join-left,right,full cross join
+```sql
+select <table>.* from <table>;
+```
+### full outer join not in Mysql but in oracle
+
+### - self join***  - left join - right join
+
+### COMPOUND JOIN CONDITION;
+
+### JOIN CONCEPT ASKED IN INTERVIEW MOST
+
+### Explicit join syntax(where u explicitly mention join clause)>implicit join syntax( a syntax where u use multiple tables with comma and a where condition)
+   reason-- implicit without where clasuse will give cross join and with explicit with condition u will get error.
+
+
+left join used to join multiple tables
+
+**set operator**-   format of columns should match ,e.g.no of columns
+
+1. union all--merges all,
+
+2. union---merge with merge duplicate
+3. intersect---show only matching 
+4. minus-----MINUS SECOND Table matching records
+
+
+## **JOIN VS SET OPERATORS**
+- join horizontally adds data
+- merge vertically adds data
