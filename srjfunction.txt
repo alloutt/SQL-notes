@@ -1,0 +1,36 @@
+SQL FUNCTION--follwing are Mysql syntax,may vary in other dbs--||REFER OFFICIAL MYSQL ORACLE WEBSITE FOR MORE FUNCTION ||
+
+SCALAR FUNCTION---
+individual record individual output
+distinct()--->select distinct * from dept; ---select distinct(1col) from dept; ----select distinct col1,col2 from dept;
+trim()--->remove spaces of side not between
+		|_-> rtrim()---->
+    |_-> ltrim()---->
+length()---->counds string length
+replace(),replicate()//in oracle//--->select ename,replace(ename,'an','en') from dept; -----select *,replace(name,'o','u') from tp;
+reverse()---> select ename,reverse(ename) from emp;--also works on numbers--
+repeat()--->select enmae,repeat(ename,3) from emp;
+date*******
+	now()--->select now();--current time
+	current_date()--->
+	current_time()--->
+	current_timestamp()--->
+  adddate()-->skips n number of dates--->select empid,ename,doj,adddate(columnnamee,3) from emp;
+  																			select empid,ename,doj,adddate(columnnamee,interval 1 year) from emp;
+                                        select empid,ename,doj,adddate(columnnamee,-3) from emp;
+	datediff()-->
+  year(),month(),day(),hour(),minute(),second()-->
+coalesce(col1,col2,col3,...,'string')-->
+spit()
+substring_index()--> select substring_index(email,'@',1) from tp;
+											select substring_index(email,'@',-1) from tp;
+concat()--->concat(col,col1,col2,'string')
+nvl():oracle ifnull(col1,col2):mysql---->select *,ifnull(name,0) from emp;--select cid,cname,ifnull(city1,city2) as city from dept;//accpts only 2 expressions//use coalesce
+____________________________________________
+GROUP BY FUNCTION----
+all rows process single output
+max()
+min()
+avg()
+sum()
+count()

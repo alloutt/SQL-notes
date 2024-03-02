@@ -1,0 +1,13 @@
+Weather Observation Station 20-aggregration-median
+select round(lat_n,4) from(select lat_n,row_number() over(order by lat_n)rank from station)where rank=round((select count(*)ct from station)/2,0);
+select round(median(lat_n),4) from station;
+
+THE REPORT 
+select name,grade,marks
+from 
+students left join 
+grades on marks>=min_mark and marks<=max_mark where grade>=8 order by grade desc,name;
+select substr(name,null)as name,grade,marks
+from 
+students left join 
+grades on marks>=min_mark and marks<=max_mark where grade<8 order by grade desc,marks asc;

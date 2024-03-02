@@ -1,0 +1,30 @@
+coalesce()*****  note :ifnull(col,replacestring) used in single column colease(col,col2,col4,col3,...,string) used to check and output first non-null value by sequece
+
+it retruns first non null value from given list or column            note:DATETIME requires more storage space than TIMESTAMP--datatype
+e.g
+col1 col2 col3
+1     p     100
+2    NULL   200
+NULL c       NULL
+NULL NULL    NULL
+coalesce(col1,col2,col3,'hello');
+output will be:
+1
+2
+c
+hello
+Note:sequence also matters
+e.g.
+coalesce(col3,col2,col1);
+output:
+100
+200
+c
+NULL
+
+********SUBQUERIES-----
+Output of one query is given as input to another query
+******windowing function******
+row_num()                          
+rank()                            
+dense_rank()
