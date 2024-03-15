@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL GROUPBY</title>
+    <style>
+        body{
+            font-family:monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>coalesce()***** </h1>
+     note :ifnull(col,replacestring) used in single column colease(col,col2,col4,col3,...,string) used to check and output first non-null value by sequece
+
+it retruns first non null value from given list or column        
+e.g
+<table>
+    <tr>
+        <th>col1</th>
+        <th>col2</th>
+        <th>col3</th>
+    </tr>
+    <tr>
+        <td>1</td>
+        <td>p</td>
+        <td>100</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>NULL</td>
+        <td>200</td>
+    </tr>
+    <tr>
+        <td>NULL</td>
+        <td>c</td>
+        <td>NULL</td>
+    </tr>
+    <tr>
+        <td>NULL</td>
+        <td>NULL</td>
+        <td>NULL</td>
+    </tr>
+</table>
+coalesce(col1,col2,col3,'hello');
+output will be:
+<table>
+    <tr>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>c</td>
+    </tr>
+    <tr>
+        <td>hello</td>
+    </tr>
+</table>
+
+Note:sequence also matters
+e.g.
+coalesce(col3,col2,col1);
+<table>
+    <tr>
+        <td>100</td>
+    </tr>
+    <tr>
+        <td>200</td>
+    </tr>
+    <tr>
+        <td>c</td>
+    </tr>
+    <tr>
+        <td>NULL</td>
+    </tr>
+</table>
+
+<h1>********SUBQUERIES-----</h1>
+
+Output of one query is given as input to another query
+<h1>******windowing function******</h1>
+
+row_num()     <br>                     
+rank()        <br>                    
+dense_rank()<br>
+<b>note:DATETIME requires more storage space than TIMESTAMP--datatype</b>   
+</body>
+</html>
