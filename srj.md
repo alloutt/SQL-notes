@@ -43,3 +43,22 @@ left join used to join multiple tables
 ## **JOIN VS SET OPERATORS**
 - join horizontally adds data
 - merge vertically adds data
+
+
+```mermaid
+mindmap
+root[SQL]
+    [JOIN
+    horizontally adds data]
+        [Inner]
+        [Left]
+        [Right]
+        [Full Outer]
+    [SET OPERATORS
+    vertically adds data]
+        [union]
+        [union all]
+        [intersect]
+        [minus]    
+    
+```
