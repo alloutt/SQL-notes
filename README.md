@@ -1,2 +1,4 @@
 # SQL-notes
-##using windows
+## ML
+## AWS
+## Linux

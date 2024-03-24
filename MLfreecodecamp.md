@@ -1,0 +1,352 @@
+[freeCodeCamp ML2024](https://youtu.be/bmmQA8A-yUA?feature=shared)
+```
+mindmap
+  root(Machine Learning)
+    Mathematics
+        Linear Algebra
+            Vectors
+            Matrix
+            Matrix Multiplication
+            Dot Product
+            Identity/Diagonal Matrix
+            Transpose
+            Inverse
+            Determinant
+            ...
+        Calculus
+            Differentiation rules
+            Integration
+            Sum rule
+            Constant rule
+            Chain rule
+            Gradiants
+            Hessian
+            Derivative
+                Partial Derivitive
+                First order derivativr
+                Second order Derivative
+            ...
+        Descrete Mathematics 
+            Graph Theory
+            Combinations Combinators
+            Complexity
+            ...
+        Basic Mathematics
+            Multiplication/operations
+            Math symbols
+            x/y abbrevation
+            Exponents
+            Log/Ln/Exp
+            e/phi
+            Geometric Notions
+            sin/cos/tanh
+    Statistics
+        Descriptive Statistics
+            Mean/mode/median
+            Variance/std
+            Correlation/Covariance
+            ...
+        Inferential Statistics
+            Central Limit Theorem/LLM
+            Sample/Population
+            Hypothesis Testing
+            Confidence Intervals
+            Statistical Significance
+            Power of test
+            Type I/Type II error
+            ...
+        Casual Analysis
+            ...
+        Multivariate Statistics
+            ...
+        Probability Theory
+            Probability
+            Probability Distribution
+            Conditional Probability
+            Probability rules
+            Probability of Multiplier/two sums
+            Bernouli Distribution
+            Binomial Distribution
+            Uniform Distribution
+            Normal Distribution
+            Exponential Distribution
+            Normality/Normalization
+            Bernoli trails
+            ...
+        Bayesian Theory
+            Bayesian Thinking
+            bayes Theorem
+            Conditinal Probability
+            Prior Probability
+            Posterioir Probability
+            ...
+    Fundamentals of ML 
+        Supervised/Unsupervised
+        Classification/Regression
+        Clustering
+        Time Series Analysis
+        Linear Regression
+        Logistics Regression
+        LDA:Linear Discrimenant analysis
+        KNN
+        Desision Tress
+        Bagging
+        Boosting:LightGBM,GBM
+        Boosting:XGBoost,AdaBoost
+        Random Forest
+        K-Means/DBSCAN
+        Hierarchical Clustering
+        Training/Validatoin/Testing
+        Hyperparameter Tuning
+        Optimizing Algorithm
+        GD,SGD,SGD Momentum,Adam,AdamW*,RWSProp*
+        Bootstrapping
+        LOOCV
+        K-FOLD cross validation
+         Matrix evaluate
+          F1-score
+          Precision/Recall
+          Crus entropy
+          Regrssion problem Evaluate-
+            MSE:Mean Squared error
+            RMSE:ROot Mean squred error
+            MAE 
+        R-squrred/Adj.R-Squared
+        Silhouette score
+        RSS
+    Python
+        Libraires
+         Pytorch
+         Tensorflow
+         Scikit-learn 
+         numpy
+         Matplotlib
+         Seaborn
+         pandas
+         Scipy
+         Pyplot
+        Data Strucures
+         variables
+         matricess
+         Arrays
+         indexing
+         lists 
+         sets 
+         operations
+        Sorting
+         Binary Sorting
+         ...
+        Data procesng
+         missing data
+         duplicates
+         clean data
+         combine data
+         aggregate data/filter data/sort data
+         AB testing in python
+         Train /test/evaluate ml models
+         visualize performace 
+    Intro to NLP
+        Application TExt Data
+        Strings
+        Cleaning text data
+        Tokenization
+        Stemming/Lemmatization
+        TF-TDF-basic nlp algo.
+        Embeddings-word/subword/character
+        NLTK
+    Deep Learing 
+        Generative AI 
+        RNNs,ANNs,CNNs 
+        AUTO Encoder,variational outer encoders
+        Generative adverserial networks
+        Rconstruction error
+        Neural networks
+        backpropaggation
+        optimizatoinal algo.
+        GANS 
+        LLMs
+        Pretraining/Fine-tuning/RAGS
+        N-grams
+        Attention mechanism
+        self attention vs attention 
+        one head self atteniion/multi-head self attention
+        encoder decoder architecture of transformers
+        architecture of transformers
+        encoder decoder based algo.GPTs,birth model
+```
+```mermaid
+mindmap
+  root(Machine Learning)
+    Mathematics
+        Linear Algebra
+            Vectors
+            Matrix
+            Matrix Multiplication
+            Dot Product
+            Identity/Diagonal Matrix
+            Transpose
+            Inverse
+            Determinant
+            ...
+        Calculus
+            Differentiation rules
+            Integration
+            Sum rule
+            Constant rule
+            Chain rule
+            Gradiants
+            Hessian
+            Derivative
+                Partial Derivitive
+                First order derivativr
+                Second order Derivative
+            ...
+        Descrete Mathematics 
+            Graph Theory
+            Combinations Combinators
+            Complexity
+            ...
+        Basic Mathematics
+            Multiplication/operations
+            Math symbols
+            x/y abbrevation
+            Exponents
+            Log/Ln/Exp
+            e/phi
+            Geometric Notions
+            sin/cos/tanh
+    Statistics
+        Descriptive Statistics
+            Mean/mode/median
+            Variance/std
+            Correlation/Covariance
+            ...
+        Inferential Statistics
+            Central Limit Theorem/LLM
+            Sample/Population
+            Hypothesis Testing
+            Confidence Intervals
+            Statistical Significance
+            Power of test
+            Type I/Type II error
+            ...
+        Casual Analysis
+            ...
+        Multivariate Statistics
+            ...
+        Probability Theory
+            Probability
+            Probability Distribution
+            Conditional Probability
+            Probability rules
+            Probability of Multiplier/two sums
+            Bernouli Distribution
+            Binomial Distribution
+            Uniform Distribution
+            Normal Distribution
+            Exponential Distribution
+            Normality/Normalization
+            Bernoli trails
+            ...
+        Bayesian Theory
+            Bayesian Thinking
+            bayes Theorem
+            Conditinal Probability
+            Prior Probability
+            Posterioir Probability
+            ...
+    Fundamentals of ML 
+        Supervised/Unsupervised
+        Classification/Regression
+        Clustering
+        Time Series Analysis
+        Linear Regression
+        Logistics Regression
+        LDA:Linear Discrimenant analysis
+        KNN
+        Desision Tress
+        Bagging
+        Boosting:LightGBM,GBM
+        Boosting:XGBoost,AdaBoost
+        Random Forest
+        K-Means/DBSCAN
+        Hierarchical Clustering
+        Training/Validatoin/Testing
+        Hyperparameter Tuning
+        Optimizing Algorithm
+        GD,SGD,SGD Momentum,Adam,AdamW*,RWSProp*
+        Bootstrapping
+        LOOCV
+        K-FOLD cross validation
+         Matrix evaluate
+          F1-score
+          Precision/Recall
+          Crus entropy
+          Regrssion problem Evaluate-
+            MSE:Mean Squared error
+            RMSE:ROot Mean squred error
+            MAE 
+        R-squrred/Adj.R-Squared
+        Silhouette score
+        RSS
+    Python
+        Libraires
+         Pytorch
+         Tensorflow
+         Scikit-learn 
+         numpy
+         Matplotlib
+         Seaborn
+         pandas
+         Scipy
+         Pyplot
+        Data Strucures
+         variables
+         matricess
+         Arrays
+         indexing
+         lists 
+         sets 
+         operations
+        Sorting
+         Binary Sorting
+         ...
+        Data procesng
+         missing data
+         duplicates
+         clean data
+         combine data
+         aggregate data/filter data/sort data
+         AB testing in python
+         Train /test/evaluate ml models
+         visualize performace 
+    Intro to NLP
+        Application TExt Data
+        Strings
+        Cleaning text data
+        Tokenization
+        Stemming/Lemmatization
+        TF-TDF-basic nlp algo.
+        Embeddings-word/subword/character
+        NLTK
+    Deep Learing 
+        Generative AI 
+        RNNs,ANNs,CNNs 
+        AUTO Encoder,variational outer encoders
+        Generative adverserial networks
+        Rconstruction error
+        Neural networks
+        backpropaggation
+        optimizatoinal algo.
+        GANS 
+        LLMs
+        Pretraining/Fine-tuning/RAGS
+        N-grams
+        Attention mechanism
+        self attention vs attention 
+        one head self atteniion/multi-head self attention
+        encoder decoder architecture of transformers
+        architecture of transformers
+        encoder decoder based algo.GPTs,birth model
+```
+    
