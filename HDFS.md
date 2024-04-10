@@ -51,10 +51,17 @@ _ r1 _  _ r2 _   _r3 _
 It is a state/phase of NN when it does not allow in write operation or replication operation
 At initial phase NN is updating metadata in safemode.
 ```
-hadoop dfsadmin -safemode get   //to check safemode state
-hadoop dfsadmin -safemode enter   //to enter safemode state
-hadoop dfsadmin -safemode leave   //to leave safemode state
+hadoop dfsadmin -safemode get
+```
+   //to check safemode state
+```
+hadoop dfsadmin -safemode enter
+```
+ //to enter safemode state
  ```
+hadoop dfsadmin -safemode leave
+```
+ //to leave safemode state
 > [!NOTE]
 > read data is allowed
 
