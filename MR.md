@@ -24,7 +24,8 @@
 | | HDFS | input split | record reader | mapper	| shuffle & sort | Reducer | record writer
 |---|---|---|---|---|---|---|---|
 | | |(loaded in RAM)|(reads data line by line)|(apply logic,i.e.split data by " ")| |(aggregation)|(writing result in HDFS)
-|DN1<br><br><br>DN2||this is java<br>this is scala<br><br>this is python|this is java<br>this is scala<br><br>this is python|this is java<br><br>this is scala<br><br>this is python|this,1<br>is,1<br>java,1<br>this,1<br>is,1<br>scala,1<br>this,1<br>is,1<br>python,1|this,1<br>this,1<br>this,1<br>is,1<br>is,1<br>is,1<br>java,1<br>scala,1<br>python,1|this,3<br>is,3<br>java,1<br>scala,1<br>python,1| |
+|DN1<br><br><br>DN2|this is java<br>this is scala<br><br>this is python|this is java<br>this is scala<br><br>this is python|this is java<br><br>this is scala<br><br>this is python|this,1<br>is,1<br>java,1<br>this,1<br>is,1<br>scala,1<br>this,1<br>is,1<br>python,1|this,1<br>this,1<br>this,1<br>is,1<br>is,1<br>is,1<br>java,1<br>scala,1<br>python,1|this,3<br>is,3<br>java,1<br>scala,1<br>python,1| |
+
 **MapReduce**:
 
 Phases--
