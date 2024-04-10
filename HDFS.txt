@@ -60,4 +60,16 @@ High Availability:
  Placing one more server as NameNode,but only one will be active at a time.
  Two Nodes switches in between sharing common metadeta storage called Journal nodes,each node has FailoverController which reports Heartbeat of NN to ZooKeeper,Zookerper send signal to FailoverController of another node after failure of namenode,vice versa.
  one fail another start,another fail,first start. 
+ Activity:Search this concept on google,get diagramatic reference.
+
+HDFS federation:
+    for every block stored in datanodes,150byte of metadeta is stored in namenode.
+    if no. of block increase,metadata will also increase.
+    this metadata will take load on NameNode.
+    this was overcome with HDFS Federation
+    Multiple NameNodes are used ,with all active having shared block pool of all datanodes.the data will be stored all across datanodes but the metadata will be stored at specific namenode called namespace.
+    Block pool responsible to manage the block.
+Activity:google this concept,get diagramatic refernce.
+
+Interview:High availability,replication
 
