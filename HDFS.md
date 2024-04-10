@@ -50,18 +50,19 @@ _ r1 _  _ r2 _   _r3 _
 ## NameNode SafeMode:
 It is a state/phase of NN when it does not allow in write operation or replication operation
 At initial phase NN is updating metadata in safemode.
+
+* to check safemode state
 ```
 hadoop dfsadmin -safemode get
 ```
-   //to check safemode state
+* to enter safemode state
 ```
 hadoop dfsadmin -safemode enter
 ```
- //to enter safemode state
+* to leave safemode state
  ```
 hadoop dfsadmin -safemode leave
 ```
- //to leave safemode state
 > [!NOTE]
 > read data is allowed
 
