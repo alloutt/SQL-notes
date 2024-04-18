@@ -4,9 +4,6 @@
 ## where not equal != or <>
 MySQL case
 
-[Python memory management](https://www.squash.io/how-to-manage-memory-with-python/#:~:text=One%20of%20the%20key%20features,by%20a%20private%20heap%20space)
-
-[3d diagram](https://framerusercontent.com/images/9S5ONFM0rMkYevPCohGGB9iin18.png)
 
 https://www.hackerrank.com/challenges/weather-observation-station-5/problem?isFullScreen=true
 
