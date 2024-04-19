@@ -1,0 +1,96 @@
+challanges we face in data
+Process
+Storage
+
+BigData
+IBM            IBM      IBM
+volume, value, variety, velocity, and veracity
+|       |      |        |             |
+|       |      |        |            Accuracy of Data
+|       |      |      Increasing Data rapid speed
+|       |     various of data formats----------------------|____structured
+|       Value of  data                                     |____non-structured/unstructured
+Big Volume of data                                         |____,semi-structured(json,xml.etc)
+3 v's is defination giving by ibm
+
+
+
+So STORAGE and PROCESSING is the challange of BIG DATA
+and HADOOP is the SOLUTION
+HADOOP(introduced in 2007-08):(written in JAVA)
+	initially google was facing challange for storage and process in around 2003-04,they team including person Doug Cutting came up with gfs(google file system)
+for processing still was issue,they came up with MapReduce only on paper,later Doug Cuting joined Yahoo,there they implemented both storage and processing solution and named HDFS for storage,MapReduce:MR for processing.
+later,Doug Cutting built an application named Hadoop.made it open-source(2007-08)
+HADOOP is a OPEN SOURCE FRAMEWORK for CHALLANGES FOR STORAGE and PROCESSING DATA USING CLUSTER OF COMMODITY HARDWARE//COMMODITY HARDWARE means cheap hardware. 
+ Deamons running-
+  NameNode- on Master- only stores Metadata(info about other nodes,data about data is metadeta)
+  DataNode- on slave respolsibility:send signal every 3 sec to NameNode that DataNode is working---every 10th signal beat(heartbeat) i.e. 30sec it sends block report to NameNode
+DFS-service that divides data if space is not available block size ... hadoop 1.x 64mb,hadoop 2.x and 3.x = 128mb.default
+when data is divided its fast to retrive too
+Cluster is scalable.
+HDFS is the combined storage of all nodes
+NodeBalancer-balaces data stored in distrubuted manner
+
+
+
+****HDFS COMMANDS
+COMMANDS
+sudo jps    //list java process
+
+ls          //normal ls
+hadoop fs -ls      //hadoop ls
+Note: relative path dont work in hadoop ,only absolute path.
+
+hadoop fs -mkdir /d1         //creating directory
+
+hadoop fs -put <source_path> <destination_path>    //copy files local to HDFS,-f option force upload(situation uploading same name file updated)
+//source path can be relative but not the destination
+
+HDFS is WORM (Write Once,Read Many)
+
+sudo su - root //Switch User to root
+
+NameNode-metadata location--  /mnt/namenode/current
+fsimage
+geditlog
+
+datanode -- /mnt/hdfs
+
+ /--Interview focus----------------\
+| HDFS Commands                     |
+| read write operations of hdfs     |
+ \---------------------------------/
+ 
+ hadoop fs -get <hdfs_absolute_path> <local_path>  //downloading file from HDFS to local
+ 
+ hadoop fs -touchz /<filepath>        //creating file on HDFS
+ 
+ hadoop fs -cp <src_hdfs_path> <desti_hdfs_path> //copy hdfs //can also copy folders
+ 
+ hadoop fs -mv <src> <desti> //move,rename hdfs 
+ 
+ hadoop fs -rm <path>  //remove file,-r option for recursive delete(situation: deleting folder) 
+ similarly df,du,chmod,cat,head,tail...etc.
+ Note:in du -s option summarizes total size 
+ more,less commands wont work in hdfs
+ =================================================
+ hadoop dfsadmin -report
+ 
+ hadoop fsck /       #checking health of cluster
+ ====================================================
+ 
+ hadoop fs -getmerge /dir/* <desti_path>  // merge two files content
+ 
+ hadoop fs -appendToFile <localfile> <hdfs_file>  //appending file content
+ 
+ NOTE:hadoop fs  OR hdfs dfs  BOTH WORK SAME
+ 
+ Activity:interact with s3 bucket using hdfs
+ 
+ hadoop fs -ls <s3_path>
+ hadoop fs -rm -r <s3_file_path>
+ 
+ 
+ 
+ 
+ 
