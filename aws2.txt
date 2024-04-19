@@ -1,0 +1,44 @@
+CLoud service types:
+IAAS : Infrastructor 
+PAAS : Platform 
+SAAS : Software
+
+1.Public
+2.Private
+3.Hybrid
+
+TOP CLOUD PLAYERS
+AWS
+GCP
+Azure
+
+AWS Services
+EC2
+RDS- for loacl connection softeware==workbecnch and drivers
+
+CONCEPT-I AM =Identity and Access Management
+
+permission between two services :ROLE
+permission between I AM user and serveice : POLICES
+
+S3-
+to attach ec2 to s3 we need to attach role to ec2(I AM > Roles)
+ commands
+ aws s3 buckets
+ aws s3 ls
+ aws s3 ls s3://bucketname --recursive --human-readable --summarize
+ aws s3 mb s3://bucketname (make bucket)
+ aws s3 rb s3://bucketname (remove bucket)
+ aws s3 rm ...
+ aws s3 rm ... --force    (removeing bucket with files)  --recursive (all files delete only bucket remain)
+ 
+ In s3 the name of file is key and content of file is object
+  directories folder does not exist instead it is integrated in name
+  
+aws s3 cp <source> <destination> 
+options
+--exclude "*.txt"
+--include "*.txt"
+. --recursive ("." as u know current dir,similar to one step up dir "..")
+
+aws s3 sync <currentpath> <anotherpath>
