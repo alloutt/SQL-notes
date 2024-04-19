@@ -1,0 +1,100 @@
+SQOOP -- outdated
+	its ETL tool (Extract-Transform-Load)
+  used to import data from RDBMS--->HDFS
+
+SQL+HADOOP=SQOOP
+
+SQOOP connects with RDBMS with use of username,password,hostname,driver
+
+Operations:
+1.import RDBMS to HDFS
+2.export HDFS to RDBMS
+3.import-all-tables
+4.list databases
+5.list tables
+6.eval(running any query SELECT,INSERT,DELETE,etc.)
+
+PRACTICAL-create RDS(MYSQL),launch emr with checkbox tick SQOOP HADOOP/MR etc.
+
+sqoop import --connect jdbc:mysql://database-1.cjxbe2wg8jte.ap-south-1.rds.amazonaws.com:3306/DEV --username myuser --password 'mypassword' --table emp --target-dir /sq_op -m 1
+upload driver path  /usr/lib/sqoop/lib (*****compulsary,without driver command wont work)
+
+options
+--connect URL/Databasesname --username USERNAME --password PASSWORD --table TABLENAME (remove this option to import all tables) --target-dir TARGETPATH 
+-m 1  (m stands for mappers allocated)
+(optional) --password-file 'file' (chmod should be 400)
+--warehouse-dir PATH (just like target-dir but with sparate tables as  folders)
+--exculde-tables tablename
+--columns eid,ename,did (specific columns)
+--where 'city="Pune"' (where condition)
+
+#list databases-(just add list-databases before --connect)
+
+sqoop list-databases --connect jdbc:mysql://database-1.cjxbe2wg8jte.ap-south-1.rds.amazonaws.com:3306/DEV --username myuser --password 'mypassword'
+
+#list tables-(just add list-tables before --connect)
+
+sqoop list-tables --connect jdbc:mysql://database-1.cjxbe2wg8jte.ap-south-1.rds.amazonaws.com:3306/DEV --username myuser --password 'mypassword'
+
+#eval-(add eval before connect and pass argument with -e 'SQL QUERY')
+
+sqoop eval --connect jdbc:mysql://database-1.cjxbe2wg8jte.ap-south-1.rds.amazonaws.com:3306/DEV --username myuser --password 'mypassword' -e 'desc emp'
+
+sqoop eval --connect jdbc:mysql://database-1.cjxbe2wg8jte.ap-south-1.rds.amazonaws.com:3306/DEV --username myuser --password 'mypassword' -e 'drop table emp'
+
+sqoop eval --connect jdbc:mysql://database-1.cjxbe2wg8jte.ap-south-1.rds.amazonaws.com:3306/DEV --username myuser --password 'mypassword' -e 'insert into dept value (30,"Sales")'
+
+#export HDFS--->RDBMS (rarely used)
+
+constraints-Table should be created in RDS already and SCHEMA should match
+
+cust.txt
+1
+2
+3
+4
+5
+6
+7
+8
+
+
+sqoop export --connect jdbc:mysql://database-1.cjxbe2wg8jte.ap-south-1.rds.amazonaws.com:3306/DEV --username myuser --password 'mypassword' --table cust --export-dir /cust.txt
+
+possible errors:table not created,.jar driver no uploaded,schema i.e. no.of coulmns,datatype etc.
+
+INCREMENTAL DATA HANDLING::
+#Delta = Daily data = incremental data = transactional data
+
+How to import only new data...
+add these 3 parameters:
+--incremental <mode>
+--check-column
+--last-value   (data more than this value will be imported)
+#inserted or append 
+sqoop import --connect jdbc:mysql://database-1.cjxbe2wg8jte.ap-south-1.rds.amazonaws.com:3306/DEV --username myuser --password 'mypassword' --table cust --target-dir /sq_op -m 1 --incremental append --check-column cid --last-value 3 --append
+(with this command part-m-00001 will get created)
+Possible confusion: --incremental append works while retriving data,while --append works when we import data in same location in HDFS,without --append new dir will require or error will occur.
+At least one incremental column required.
+if no any then concept:SURROGATE KEY
+Allocation mapper is subjective for each project.
+
+#modify/update data sqoop
+
+ add updated record with rudate column,i.e.Record updated date.
+sqoop import --connect jdbc:mysql://database-1.cjxbe2wg8jte.ap-south-1.rds.amazonaws.com:3306/DEV --username myuser --password 'mypassword' --table cust --target-dir /sq_op -m 1 --incremental lastmodified --check-column rudate --last-value '2023-01-01' --append
+
+Sqoop Job 
+syntax:sqoop job --create <job_name> ___________________________<jobcode>_______________________________
+You need a json jar/dependency...upload it in lib folder(usr/lib/sqoop/lib)
+it will ask password because hadoop doesnt save password,if used password file u can overcome this also.
+	
+sqoop job --create cust_imp -- import --connect jdbc:mysql://database-1.cjxbe2wg8jte.ap-south-1.rds.amazonaws.com:3306/DEV --username myuser --password 'mypassword' --table cust --target-dir /sq_op -m 1 --append
+
+sqoop job --list 
+sqoop job --show <job_name> 
+
+sqoop job --exec cust_imp
+sqoop job --delete cust_imp
+
+

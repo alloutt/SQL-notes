@@ -1,0 +1,3 @@
+Data Analysis
+Hive(DWH)--DATA WAREHOUSE TOOL
+Running SQL Queries on HDFS for analysis.
