@@ -1,3 +1,7 @@
 Data Analysis
 Hive(DWH)--DATA WAREHOUSE TOOL
 Running SQL Queries on HDFS for analysis.
+
+Multiple Source(file,hdfs,rdbms)Unstructured----------->DWHTool/hive,Structured/Processed data
+
+Hive doesnt have storage,it stores only metadata of data 

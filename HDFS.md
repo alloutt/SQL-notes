@@ -47,6 +47,7 @@ _ r1 _  _ r2 _   _r3 _
 |     | |     | |     |
 | dn3 | |     | |     |
 </pre>
+* https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common/RackAwareness.html
 ## NameNode SafeMode:
 It is a state/phase of NN when it does not allow in write operation or replication operation
 At initial phase NN is updating metadata in safemode.
