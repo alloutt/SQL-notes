@@ -2,6 +2,74 @@ Data Analysis
 Hive(DWH)--DATA WAREHOUSE TOOL
 Running SQL Queries on HDFS for analysis.
 
-Multiple Source(file,hdfs,rdbms)Unstructured----------->DWHTool/hive,Structured/Processed data
+Multiple Source(file,rdbms,...)Unstructured----------->DWHTool/hive,Structured/Processed data---USED--FOR----->DATA ANALYSIS
 
 Hive doesnt have storage,it stores only metadata of data 
+Hive is Tabular,like RDBMS,database,table,rows,columns,
+all datatypes are similar as RDBMS..int,string,timestamp,...
+no constraints supported,e.g. pk,fk,unique,not null...
+all hive queries should be run on hive terminal
+    to active hive terminal on emr-COMMAND:hive OR hive shell
+ 
+Hive__
+      |_Derby DBMS(optional,MySQL,etc.)...stores metadata of DATABASE,TABLES,COLUMNS
+           |
+           |
+    points to HDFS
+           |
+HDFS<------|
+
+SYNTAX: |__create table tble....__|__location...__|
+         |__thisis fetched from metadeta__|__this is fetched from location__|
+
+SUPPOSE
+HDFS--->cust.txt
+/cust/cust.txt
+
+cust.txt
+cid,cname,city
+1,karan,pune
+2,rohan,pune
+3,ganesh,mumbai
+4,roha,surat
+5,rosh,surat
+
+CREATE TABLE HIVE COMMAND:
+create external table cust (cid int,cname string,city string)
+row format delimited
+fields terminated by ','
+location '/cust/';
+
+path till folder,no need for full path,difference between internal/external table scroll down
+
+Now u can run any queries on hive table created above. Note:99% queries is like SQL
+
+HIVE Queries
+
+show tables;
+desc <table_name>;
+show create table <table_name>;
+    Shows how table is created with details
+select * from <table_name>;
+    Structure of flow of query
+    select * from cust where cname=karan;----Goes through parser/compiler----HIVE PARSER/COMPILER--------checks the metadeta------>Hive Metadeta
+                                                                                            |<-----gives back acknowledgment------------|    
+    after acknowledgment query gets coverted in executable format,like mapreduce job internally
+    goes through execution engine/executor.-----output----->1 karan pune
+load data inpath '<path>' into table cust_in;
+    this will load data from <path>,like '/cust.txt' into internal table cust_in.
+
+Difference Internal | external
+HDFS data store managed by hive | managed/defined by user
+path /user/hive/warehouse/<table_name> | /cust/<table_name> (from above example)
+Command
+INTERNAL:
+create table cust (cid int,cname string,city string)
+row format delimited
+fields terminated by ',';
+______________________________________________________________
+EXTERNAL:
+create external table cust (cid int,cname string,city string)
+row format delimited
+fields terminated by ','
+location '/cust/';
