@@ -40,7 +40,7 @@ row format delimited
 fields terminated by ','
 location '/cust/';
 
-path till folder,no need for full path,difference between internal/external table scroll down
+Note:path till folder,no need for full path,difference between internal/external table scroll down
 
 Now u can run any queries on hive table created above. Note:99% queries is like SQL
 
@@ -58,6 +58,22 @@ select * from <table_name>;
     goes through execution engine/executor.-----output----->1 karan pune
 load data inpath '<path>' into table cust_in;
     this will load data from <path>,like '/cust.txt' into internal table cust_in.
+load data inpath '/home/hadoop/cust.txt' into table cust_in;
+    loading data through local file system.
+alter table cust rename to cust_bkp;
+    table cust will be renamed as cust_bkp
+
+DDL 
+    create
+    truncate
+    drop
+    alter
+    *condition:some will work on internal and not external
+DML 
+    not supported in hive
+    *condition:storage format should be .orc and transactional property should be enabled
+DRL 
+    all drl 99% sql queris supported
 
 Difference Internal | external
 HDFS data store managed by hive | managed/defined by user
@@ -73,3 +89,5 @@ create external table cust (cid int,cname string,city string)
 row format delimited
 fields terminated by ','
 location '/cust/';
+truncate can be | cannot
+drop can be | only hive table delete,not the data on HDFS
