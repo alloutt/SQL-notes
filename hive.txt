@@ -91,3 +91,38 @@ fields terminated by ','
 location '/cust/';
 truncate can be | cannot
 drop can be | only hive table delete,not the data on HDFS
+
+#partition
+is a performace optimization technique,storing data in partitions.
+whenever following partition command os performed data will get stored in parts.
+Lets see practically...
+COMMAND:
+#for internal table
+create table cust (cid int,cname string,city string)
+row format delimited
+fields terminated by '|';
+#for partition
+create table cust (cid int,cname string)
+partition by (city string)
+row format delimited
+fields terminated by '|';
+#for loading data in partition table
+2 methods
+#static partition(enabled default):used to bulk load(i.e.large data)
+
+
+#dynamic partition
+
+
+DataWarehouse | Datalake
+Structured data | Unstructured data
+ETL | ELT
+
+OLTP | OLAP
+Online Transactional Processing | Online Analysis Processing
+MySQL,other databases | Hive
+
+read on schema | write on schema
+hive | MySQL,etc.
+read on schema ,doesnt check schema during write operation,like 'Ten' in datatype int,but will show erro or NULL while reading it.
+while write on schema will check schema,datatypes during write operation itself.
