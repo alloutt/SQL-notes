@@ -1,0 +1,153 @@
+DWH ---> Analysis --> hql 
+
+99% SQL = HQL 
+
+#Hive Partition
+
+Large Data : Table 
+Partition 
+
+internal or External 
+
+
+#internal 
+create table cust (cid int,cname string,city string)
+row format delimited
+fileds terminated by '|';
+
+#partitioned Table 
+create table cust_p (cid int,cname string)
+partitioned by (city string)
+row format delimited
+fields terminated by ',';
+
+#load data into partitioned table 
+#Static partition 
+default enabled
+bulk load 
+load 1-1 partition
+
+cust 3 cities
+pune.txt
+1,karan,Pune
+2,Rohan,Pune
+3,Geeta,Pune
+
+mumbai.txt
+4,Rakesh,Mumbai
+5,Roshan,Mumbai
+6,Rock,Mumbai
+
+surat.txt
+7,Neel,Surat
+8,Joe,Surat
+
+#load 
+
+load data local inpath '/home/hadoop/pune.txt' into table cust_p partition(city='Pune');
+load data local inpath '/home/hadoop/mumbai.txt' into table cust_p partition(city='Mumbai');
+load data local inpath '/home/hadoop/surat.txt' into table cust_p partition(city='Surat');
+
+hive> show partitions cust_p;
+OK
+city=Mumbai
+city=Pune
+city=Surat
+
+
+
+
+
+
+
+#Dynamic Partition 
+enable this partition 
+
+
+create table cust_np (cid int,cname string,city string)
+row format delimited
+fields terminated by ',';
+
+load data local inpath '/home/hadoop/cust.txt' into table cust_np;
+
+create table cust_dp (cid int,cname string)
+partitioned by (city string)
+row format delimited
+fields terminated by ',';
+
+set hive.exec.dynamic.partition.mode=nonstrict;
+
+insert into cust_dp partition(city) select * from cust_np;
+
+
+cust.txt (Pune,Mumbai,Surat)
+1,karan,Pune
+2,Rohan,Pune
+3,Geeta,Pune
+4,Rakesh,Mumbai
+5,Roshan,Mumbai
+6,Rock,Mumbai
+7,Neel,Surat
+8,Joe,Surat
+
+load data local inpath '/home/hadoop/cust.txt' into table cust_dp partition(city='Pune');
+
+
+
+external : truncate 
+
+internal   /warehouse  cust 
+internal  / 
+
+===================================================
+create table cust_smp (cid int,cname string)
+partitioned by (state string,city string)
+row format delimited
+fields terminated by ',';
+
+cust_mh_pune.txt
+1,karan,MH,Pune
+2,Rohan,MH,Pune
+3,Geeta,MH,Pune
+
+cust_mh_mumbai.txt
+4,Rakesh,MH,Mumbai
+5,Roshan,MH,Mumbai
+6,Rock,MH,Mumbai
+
+cust_gj_surat.txt
+7,Neel,GJ,Surat
+8,Joe,GJ,Surat
+
+load data local inpath '/home/hadoop/cust_mh_pune.txt' into table cust_smp partition(state='MH',city='Pune');
+
+load data local inpath '/home/hadoop/cust_mh_mumbai.txt' into table cust_smp partition(state='MH',city='Mumbai');
+
+load data local inpath '/home/hadoop/cust_gj_surat.txt' into table cust_smp partition(state='GJ',city='Surat');
+
+
+==========================================
+create table tmp (cid int,cname string,state string,city string)
+row format delimited
+fields terminated by ',';
+
+cust1.txt
+1,karan,MH,Pune
+2,Rohan,MH,Pune
+3,Geeta,MH,Pune
+4,Rakesh,MH,Mumbai
+5,Roshan,MH,Mumbai
+6,Rock,MH,Mumbai
+7,Neel,GJ,Surat
+8,Joe,GJ,Surat
+
+load data local inpath '/home/hadoop/cust1.txt' into table tmp;
+
+create table cust_dmp (cid int,cname string)
+partitioned by (state string,city string)
+row format delimited
+fields terminated by ',';
+
+insert into table cust_dmp partition(state,city) select * from tmp;
+
+set hive.cli.print.header=true; 

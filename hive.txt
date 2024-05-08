@@ -93,11 +93,12 @@ truncate can be | cannot
 drop can be | only hive table delete,not the data on HDFS
 
 #partition
+Problem specification:If u have partition data by city,while getting data only for pune will check only pune partition...hence performance improved
 is a performace optimization technique,storing data in partitions.
-whenever following partition command os performed data will get stored in parts.
+whenever following partitiing commands os performed data will get stored in parts.
 Lets see practically...
 COMMAND:
-#for internal table
+# internal table
 create table cust (cid int,cname string,city string)
 row format delimited
 fields terminated by '|';
@@ -106,23 +107,166 @@ create table cust (cid int,cname string)
 partition by (city string)
 row format delimited
 fields terminated by '|';
+data of city will be saved in partition with different location by city
 #for loading data in partition table
-2 methods
-#static partition(enabled default):used to bulk load(i.e.large data)
+2 methods(static and dynamic)
+`#static partition(enabled default):used to bulk load(i.e.large data)
+ here we need to load 1 by 1 partition manually
+ FOR STATIC PARTITION U NEED SEPARATE FILES FOR SEPARATE PARTITION (e.g.Pune.txt,Mumbai.txt,Surat.txt...)
+COMMANDS:
+load data local inpath '/home/hadoop/pune.txt' into cust_p  partition(city='Pune');
+load data local inpath '/home/hadoop/mumbai.txt' into cust_p  partition(city='Mumbai');
+load data local inpath '/home/hadoop/surat.txt' into cust_p  partition(city='Surat');
+    if files are on HDFS use only (..data inpath '...)
+    after execution Pune folder will created and record will get stored inside it.
+    user/hive/warehouse/cust_p/city=Pune/pune.txt
+    user/hive/warehouse/cust_p/city=Mumbai/mumbai.txt
+    user/hive/warehouse/cust_p/city=Surat/surat.txt
+                             
+show partition cust_p;
+output:
+    OK
+    city=Pune
+    city=Mumbai
+    city=Surat
 
+`#dynamic partition
+FOR FOR DYNAMIC PARTITION U NEED  FILE FOR  PARTITION (e.g.cust_p.txt[which includes data of all cities])
+Steps:1)Create non-partition table load data inside it
+2)insert data from non-partitoin table to partition table
 
-#dynamic partition
+COMMANDS:
+load data local inpath '/home/hadoop/cust.txt' into cust_np;
 
+Lets create partition table:
+create table cust_dp (cid int,cname string)
+partition  by (city string)
+row format delimited
+fields terminated by '|';
 
+insert into cust_dp partition(city) select * from cust_np;
+
+----------------------------------------------------------------
+PARTIOTN ON MULTIPLE COLUMNS
+U CAN SUBDIVDE PARTITIONS IN MORE PARTITIONS,CREATING HEREARCHIHAL STRUCTURE
+#static way
+cust_mh_pune.txt,cust_mh_mumbai.txt,cust_gj_surat.txt
+
+final table:cust_smp columns:cid,cname,state,city
+
+output:
+OK
+state=GJ/city=Surat
+state=MH/city=Pune
+state=MH/city=Mumbai
+
+#dynamic way
+load data local inpath '' into table cust_tmp
+
+create table cust_dmp (cid int,cname string)
+partition  by (state string,city string)
+row format delimited
+fields terminated by '|';
+
+insert into table cust_dmp partition(state,city) select * from cust_tmp;
+output:same as above
+
+===================================================================================
 DataWarehouse | Datalake
 Structured data | Unstructured data
 ETL | ELT
 
 OLTP | OLAP
-Online Transactional Processing | Online Analysis Processing
+OnLine Transactional Processing | OnLine Analysis Processing
 MySQL,other databases | Hive
 
 read on schema | write on schema
+check schema on read | check schema on write
 hive | MySQL,etc.
-read on schema ,doesnt check schema during write operation,like 'Ten' in datatype int,but will show erro or NULL while reading it.
+read on schema ,doesnt check schema during write operation,like 'Ten' in Column datatype int,but will show erro but will show NULL while reading it.
 while write on schema will check schema,datatypes during write operation itself.
+===========================================================================================
+#Bucketing
+bucketing is similar to partition but difference is when column have too many variety of data,for e.g.Mobile no.
+partitioning mobile number will create separate folder for each record,instead we can use bucketing
+bucketing creates files.(bucketing create files,partiton create folders)
+when to use:
+    1.not particualr column for partition
+    2.unequal partition size
+Bucketing works on hashing technique,u just have to determine number of buckets
+buckets are determined using modulous(%)i.e. reminder after division
+https://www.javatpoint.com/bucketing-in-hive
+e.g.
+cust 
+cid cname
+1%4 = 1
+2%4 = 2
+3%4   3
+----
+4%4   0
+5%4   1
+6%4   2
+-------
+7%4   3
+8%4   0
+-----------
+9%4   1
+10%4  2
+
+
+1 5 9
+-----
+2 6 10
+----------
+3 7
+----------
+4 8
+
+
+COMMAND:
+create table cust_b(cid int,cname string)
+clustered by (cid) into 4 buckets
+row format delimited
+fields terminated by '|';
+
+insert into cust_b select * from cust;
+(given cust have all customer data seprated by pipe'|')
+
+Note:bucketing is not limited to numerical column,even string can be bucketed using hashing technique
+
+--------
+So for performance optimizing we seen
+1)partitioning
+2)bucketing
+3)while running query there will be execution engine Mapreduce,on amazon tez is default execution engine used
+Execution engines:MapReduce,Tez,Spark
+MR is slower as compare to others
+COMMAND:
+set hive.execution.engine=tez;
+4)fileformat:text,rc,orc,avro,parquet,sequence
+orc is faster,text is default
+COMMAND:
+create table cust_tt (cid int,cname string)
+row format delimited
+fields terminated by '|'
+stored as ORC;
+*options(rcFile,avro,parquet,sequenceFile)
+orc(optimized row column):it creates its own index,hence faster.
+
+*serde:serde is a java program to read particular format of data which is added by default with .jar with hive
+purpose:serialization and deserailization.
+location of jar:
+/usr/lib/hive/lib/
+4)compression technique
+COMMAND:
+create table cust_parquetsnappy (cid int,cname string)
+row format delimited
+fields terminated by '|'
+stored as parquet
+TBLPROPERTIES('COMPRESS'='snappy');
+
+insert into cust_parquetsnappy select * from cust;
+
+Till now we were loading record without header,i.e. column table_name
+we will see how to add header next...
+
