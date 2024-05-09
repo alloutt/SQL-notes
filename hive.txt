@@ -257,7 +257,7 @@ orc(optimized row column):it creates its own index,hence faster.
 purpose:serialization and deserailization.
 location of jar:
 /usr/lib/hive/lib/
-4)compression technique
+5)compression technique
 COMMAND:
 create table cust_parquetsnappy (cid int,cname string)
 row format delimited
@@ -266,7 +266,207 @@ stored as parquet
 TBLPROPERTIES('COMPRESS'='snappy');
 
 insert into cust_parquetsnappy select * from cust;
+6)indexing:
+    it maintain order of record in order to reduce query timestamp
+    two main indexing used in hive:Compact,bitmap
+    compact:use if column has duplicate values
+    bitmap:use if column has distinct values
+    (refer search below for detailed overview)
 
 Till now we were loading record without header,i.e. column table_name
 we will see how to add header next...
 
+COMMAND:
+set hive.cli.print.header=true;
+(this will show header on hive terminal)
+
+create table cust_h (cid int,cname string)
+row format delimited
+fields terminated by '|'
+stored as parquet
+TBLPROPERTIES('skip.header.line.count'='1');          //added table property to skip header read
+
+now if u load data with load COMMAND it will skip 1st line 
+
+#Complex datatype handling in hive
+premitive datatypes:
+non-primitive datatype:
+    Array|Map|struct
+##Array:
+    collection of multiple element of same datatype
+    e.g.table stud:
+    id|name|marks
+    1|rahul|24,52,64,23
+COMMAND:
+    create table stud(id int,name string,marks array<int>)
+    row format delimited
+    fields terminated by '|'
+    collection items terminated by ',';
+
+    <load data>(refer above for this command)
+
+   to access array
+    select id,name,marks[0] as marathi from stud;
+    NOTE:[-1] is not supported
+    output:
+    id name marathi
+    1 rahul 24
+
+##struct:
+    collection of multiple element of different datatype
+    e.g.table 
+    id|name|address
+    1|rahul|CST,Mumbai,424242
+COMMAND:
+    create table stdnt(id int,name string,address struct<street:string,city:string,pincode:int>)
+    row format delimited
+    fields terminated by '|'
+    collection items terminated by ',';
+
+    <load data >
+
+    to access struct
+    select id,name,address.street,address.city,address.pincode from stdnt;
+    output:
+    id name street city pincode
+    1 rahul CST Mumbai 424242
+
+##map:
+    collection of data in key-value pair
+    e.g.table info
+    cid,cname,address
+    1,rahul,padd:pune|cadd:mumbai
+    2,rohan,padd:surat
+    3,rock,padd:delhi|cadd:surat
+COMMAND:
+    create table info(cid int,cname string,address map<string,string>)
+    row format delimited
+    fields terminated by ','
+    collection items terminated by '|'
+    map keys terminated by ':';
+
+    <load data>
+
+    to access map
+    select cid,cname,address['padd'] as permaddress from info;
+    output:
+    1 rahul pune
+    2 rohan surat
+    3 rock delhi
+
+#INDEXING 
+ 
+create table cust (cid int,cname string,city string)
+row format delimited
+fields terminated by ',';
+
+cid,cname,city
+1,rohan,pune
+2,Rajesh,delhi
+3,Ganesh,pune
+4,reena,pune
+5,roha,pune
+6,rakesh,mumbai
+7,kushal,delhi
+
+load data local inpath '/home/hadoop/cust.txt' into table cust;
+
+select * from cust where city='pune' and cid=5;
+
+Lets create index
+SYNTAX:
+    create index <index_name> on table <table_name>(<column_name>) as 'INDEXTYPE' with deffered rebuild;
+
+//creating bitmap index on cid column of cust table
+create index i1 on table cust(cid) as 'BITMAP' with deferred rebuild;
+//tez execution is not supported for indexing,so changing it
+set hive.execution.engine=mr;
+//creating compact index on city column of cust table
+create index i3 on table cust(city) as 'COMPACT' with deferred rebuild;
+//checking index
+show index on cust;
+//deleting index
+drop index i2 on cust;
+
+#7)MAP JOIN / BROADCAST JOIN
+all normal join operation will work in hive i.e.inner,left,right,full,but takes more time ,hence this concept.
+Use this JOIN with condition any one table should be smaller,cause the data will temporary stored in RAM/MEMORY.
+//creating table
+create table lcn (city string , area string)
+row format delimited
+fields terminated by ',';
+//data
+lcn.txt
+
+city,area
+pune,ABC
+mumbai,CST
+delhi,JM
+//loading data
+load data local inpath '/home/hadoop/lcn.txt' into table lcn;
+//NORMAL join
+select * from cust inner join lcn on cust.city=lcn.city;
+//MAPJOIN
+select /*+ MAPJOIN(lcn) */ cid,cname,cust.city,area from cust inner join lcn on cust.city=lcn.city;
+ here,the column inside MAPJOIN(_ _ _) is loaded inside memory/ram/shared cache
+    /*+ MAPJOIN(...) */ is called map hint/broadcast hint
+    when next time join used it will fetch from memory.
+the size of smaller table default is 10mb,here table lcn should be below 10mb
+    size is customizable...max recomended 256mb.
+if u r not aware of which table is smaller,then another concept is AUTO MAP JOIN
+//AUTO MAP JOIN
+    setting property
+set hive.auto.convert.join=true;
+    no need for map hint/broadcast hint here
+select * from cust inner join lcn on cust.city=lcn.city;
+    it will automatic select smaller table.
+
+#8)SMB JOIN:(Sort Merge Bucket)this is not much used 
+condition:1)both table must be bucketed table
+2)bucket column should be same in both table
+3)Query used for join should have bucketed column
+4)buckets number of both table must be same or divisible by other table buckets number. 
+(Search for more info)
+
+##HOW TO TAKE BACKUP OF TABLE(INTERVIEW/REVISION)
+create table cust_bkp as select * from cust;
+##HOW TO CREATE SIMILAR TABLE
+method1:
+    create table cust_new like cust;
+    //only structure will get created 
+method2:
+    show create table cust;
+    //copy output modify table name and location name and paste in terminal
+##CHANGE NAME OF TABLE
+    alter table lcn rename to lcn_3131;
+##DROP DATABASE CONTAINING ONE OR MORE TABLES
+    drop database dev;
+    //will only work if database is empty
+    drop database dev cascade;
+    //will drop all tables first and drop the database
+
+#VIEWS IN HIVE
+    temporary table are views just like in sql
+purpose:view are create on top of table to abstract away data and give only particular access
+(security,hiding complexity)
+we can save complex select statement queries as views.
+SYNTAX:
+    create view <view_name> as select ... from <tablename>
+2 types
+1.simple view:
+ includes simple select statements(where clause,)
+2.complex view:
+ includes complex select statements(like group by,join,windowing functions,etc.)
+
+#9)Vectorization(another performance improvement technique):
+    Vertical scanning /horizontal scanning
+    normally hive reads data row by row 
+    but if u enable Vectorization=true property
+    performance will increase because it will scan multiple columns at a time
+    default is 1024 records at once(customizable)
+COMMAND:
+    set hive.enable.vectorization=true;
+
+##CONFIGURATION
+    configuration set inside hive-site.xml is permanant while
+    configuration set through cli/terminal during session is limited to that session only
