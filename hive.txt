@@ -470,3 +470,62 @@ COMMAND:
 ##CONFIGURATION
     configuration set inside hive-site.xml is permanant while
     configuration set through cli/terminal during session is limited to that session only
+
+#Explode and Lateral view
+Explode() function shows each element of array column serially
+SYNTAX:select explode(column_name) from table_name;
+e.g.
+//creating table
+create table content (owner string,books array<string>)
+row format delimited
+fields terminated by ','
+collection items terminated by '|';
+//data
+A B Shrarma,Goal|Aim|Career
+S J Tiwari,Fiction|talk in family
+S M Gadhe,Hadoop|Bigdata|Hive
+//loading data
+load data local inpath '/home/hadoop/data.txt' into table content;
+//explode()
+select explode(books) from content;
+//explode output
+Goal
+Aim
+Career
+Fiction
+talk in family
+Hadoop
+Bigdata
+Hive
+##lateral view
+lateral view explode the column plus shows related column also
+e.g.
+//lateral view command
+select owner,extracted_book from content lateral view explode(books)v1 as extracted_book;
+//lateral view output
+A B Shrarma     Goal
+A B Shrarma     Aim
+A B Shrarma     Career
+S J Tiwari      Fiction
+S J Tiwari      talk in family
+S M Gadhe       Hadoop
+S M Gadhe       Bigdata
+S M Gadhe       Hive
+
+#hql script
+##executing script
+COMMAND:
+hive -f script_name.hql
+##parameter passing
+COMMAND:
+//hivevar(The hiveconf namespace and --hiveconf should be used to set Hive configuration values.)
+hive --hivevar a='this is a' -e '!echo ${a};'
+//hiveconf(The hivevar namespace and --hivevar should be used to define user variables.)
+hive --hiveconf a='this is a' -e '!echo ${hiveconf:a};'
+//Setting user variables under the hiveconf namespace probably won't break anything, but isn't recommended.
+//-e executes scripts from terminal
+##HOW TO STORE RESULT ON HDFS
+COMMAND:
+insert overwrite directory '/hive_output'
+select * from prod.content1 where owner='S M Gadhe';
+//this will store output in hdfs root location in hive_output folder
