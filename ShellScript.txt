@@ -1,0 +1,101 @@
+Shell Scripting
+	Used for Automation.
+
+running script
+
+ ./script.sh
+ bash script.sh
+ sh script.sh
+ ksh script.sh
+ 
+ shell types:bash,sh,ksh,etc.   bash,sh are common in almost all linux distros.
+ 
+ process/kernel executes these scripts.
+ 
+ ******IMP:shebang(#!)
+ every script shall have "#!/bin/bash" like shebang
+ 
+ https://en.wikipedia.org/wiki/Shebang_(Unix)
+ https://en.wikipedia.org/wiki/Bash_(Unix_shell)
+ 
+ "#" used for comments
+ #used for prining message
+ echo "message"
+ 
+ #variable
+ variable_name="value" #defining var
+ echo $variable_name #accessing var
+ 
+ 		#another use case
+ 		dir_name='value'  #value must be in '' or "" or it will search its value furthur.
+ 		mkdir /bin/ubuntu/$dir_name
+
+#parameter passing at runtime
+
+myscript.sh
+	#!/bin/bash
+  dir_name=$1
+  mkdir ~/dir_name
+  echo $1 folder is created.
+
+bash myscript.sh TEST      #"TEST" is parameter passed to $1 in script
+
+output:TEST folder is created
+
+similarly,u can pass $1,$2,$3,$4,... in script as 
+bash script.sh var1 var2 var3 ...
+$0 stored the filename by default
+
+#if...else(conditional statements)
+> -gt
+>= -ge
+< -lt
+<= -le
+== -eq
+
+script.sh
+	#!/bin/bash
+	name=karan
+	age=10
+	if [ $age -gt 18 ]
+	then
+	echo "you are eligible for voting"
+	else
+	echo "you are not eligible for voting"
+	fi
+	echo "script completed"
+
+-f #option-checks the file inside if statement in script
+
+#!/bin/bash
+if [ -f "/home/ubuntu/data.txt" ]
+then
+echo "file exist"
+else
+echo "file not exist"
+fi 
+echo "successful"
+	
+-d #option-checks the dir inside if statement in script
+
+#!/bin/bash
+if [ -d "/home/ubuntu/test1" ]
+then
+echo "dir exist"
+else
+mkdir /home/ubuntu/test1
+fi 
+echo "successful"
+
+Activity:check other if...else options
+
+
+
+
+
+
+  
+
+ 
+ 
+ 
