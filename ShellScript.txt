@@ -89,6 +89,20 @@ echo "successful"
 
 Activity:check other if...else options
 
+Functions:
+	block of code which can perform some task
+SYTAX:
+function_1{
+	code
+}
+function_1 #calling function
+
+#running hive code from terminal
+hive -e "hive_command"
+OR
+echo "hive_command" | hive
+
+
 
 
 
