@@ -1,0 +1,25 @@
+## READING FILE
+
+spark.read.option('header','true').csv(r'pathto.csv',inferSchema=True)
+spark.read.csv(r'pathto.csv',header=True,inferSchema=True)
+
+##VISULIZING TABLE
+______________.show() ##will show table
+
+_________.select(colummname)
+____________________.where(col("")<7)  ## from pyspark.sql.functions imprt col 
+
+## drop()
+______________.na.drop(how="",thresh= ,subset[''])
+    ##drop options
+    drop(how="any") ##will delete row if atleast 1 null/NaaN value
+    drop(how="all") ##will delete row if all values in row are null.NaaN
+    drop(  ,thresh=3)  ## threshhold means atleast 3 non-null value should present,rows with valid 3 value can stay other get deleted
+    drop(  ,   ,subset['columnname'])  ## specifing column to search for naan/values.
+
+
+## fill() 
+_______________.na.fill(value,subset='')  OR  ______________.na.fill(value,['column1','column2'])
+    value ##value to be replaced on null
+    subset ## specify column
+
