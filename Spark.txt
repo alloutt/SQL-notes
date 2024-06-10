@@ -1,5 +1,8 @@
-## READING FILE
+##Create Spark Session
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
 
+## READING FILE
 spark.read.option('header','true').csv(r'pathto.csv',inferSchema=True)
 spark.read.csv(r'pathto.csv',header=True,inferSchema=True)
 
