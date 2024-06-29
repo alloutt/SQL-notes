@@ -91,7 +91,7 @@ Activity:check other if...else options
 
 Functions:
 	block of code which can perform some task
-SYTAX:
+SYNTAX:
 function_1{
 	code
 }
