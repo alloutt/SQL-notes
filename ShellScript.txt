@@ -139,9 +139,9 @@ here it will wait for 5 sec before executing 2nd command
 crontab:
 	used to schedule script for particular time with particalar frequency
 
-min 	hr 		dayOfMonth monthOfYear 			dayofWeek
-*		*			*			*				*
-0-59	0-23		1-31	1-12 OR JAN-DEC		0-6 OR SUN-SAT
+	min	hr	dayOfMonth	monthOfYear	dayofWeek
+	*	*	*	*	*
+	0-59	0-23	1-31	1-12 OR JAN-DEC	0-6 OR SUN-SAT
 
 *	any value
 ,	value list separator
