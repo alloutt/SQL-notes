@@ -92,16 +92,75 @@ Activity:check other if...else options
 Functions:
 	block of code which can perform some task
 SYNTAX:
-function_1{
+function_1(){
 	code
 }
 function_1 #calling function
+
+u can pass parameters to function.
 
 #running hive code from terminal
 hive -e "hive_command"
 OR
 echo "hive_command" | hive
 
+While loop:
+	block of code running repeatedly
+SYNTAX:
+while command
+do
+code
+done
+
+Example:
+while read -r table_name
+do
+echo $table_name table backup started
+echo create table ${table_name}_bkp as select \* from $table_name \; | hive
+echo $table_name table backup completed
+done < table.txt
+
+table.txt
+t1
+t2
+t3
+t4
+t5
+
+Sleep:
+	wait for given sec
+SYNATX:
+echo something
+sleep 5
+echo something2
+
+here it will wait for 5 sec before executing 2nd command
+
+crontab:
+	used to schedule script for particular time with particalar frequency
+
+min 	hr 		dayOfMonth monthOfYear 			dayofWeek
+*		*			*			*				*
+0-59	0-23		1-31	1-12 OR JAN-DEC		0-6 OR SUN-SAT
+
+*	any value
+,	value list separator
+-	range of values
+/	step values
+
+
+https://crontab.guru/
+
+HOW TO RUN:
+
+crontab -e
+
+	then paste the job in file like
+
+	* * * * * myscript.sh
+	save file and exit
+
+Another tip:u can comment the job to not executing it.
 
 
 
