@@ -42,11 +42,22 @@
           const li = document.createElement("li");
           li.className = "item";
           const a = document.createElement("a");
-          if (item.type === "file") {
-            a.href = `https://github.com/${OWNER}/${REPO}/blob/${BRANCH}/${item.path}`;
-            a.textContent = item.name + " (view)";
-            a.target = "_blank";
-          } else if (item.type === "dir") {
+         if (item.type === "file") {
+  const ext = item.name.includes(".") ? item.name.split(".").pop().toLowerCase() : "";
+
+  if (ext === "html" || ext === "htm") {
+    a.href = `https://${OWNER}.github.io/${REPO}/${item.path}`;
+    a.textContent = item.name + " (open page)";
+  } else if (["txt", "md", "json", "xml", "yml", "yaml", "js", "css"].includes(ext)) {
+    a.href = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${item.path}`;
+    a.textContent = item.name + " (raw)";
+  } else {
+    a.href = `https://github.com/${OWNER}/${REPO}/blob/${BRANCH}/${item.path}`;
+    a.textContent = item.name + " (view)";
+  }
+
+  a.target = "_blank";
+}else if (item.type === "dir") {
             a.href = `https://github.com/${OWNER}/${REPO}/tree/${BRANCH}/${item.path}`;
             a.textContent = item.name + " ↳";
             a.target = "_blank";
