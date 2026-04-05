@@ -48,7 +48,7 @@
   if (ext === "html" || ext === "htm") {
     a.href = `https://${OWNER}.github.io/${REPO}/${item.path}`;
     a.textContent = item.name + " (open page)";
-  } else if (["txt", "md", "json", "xml", "yml", "yaml", "js", "css"].includes(ext)) {
+  } else if (["txt", "json", "xml", "yml", "yaml", "js", "css"].includes(ext)) {
     a.href = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${item.path}`;
     a.textContent = item.name + " (raw)";
   } else {
