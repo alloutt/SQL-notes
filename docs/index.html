@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Repo Root</title>
+  <style>
+    body { margin: 0; font-family: system-ui, sans-serif; background: #0d1117; color: #c9d1d9; }
+    .container { max-width: 800px; margin: 40px auto; padding: 16px; }
+    .item-list { list-style: none; padding: 0; }
+    .item { margin: 8px 0; padding: 4px 8px; border-radius: 4px; background: #161b22; }
+    .item a { color: #58a6ff; text-decoration: none; display: block; }
+    .item a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Repo root</h1>
+    <ul id="items"></ul>
+  </div>
+  <script>
+    // --- EDIT ---  (replace with your actual values)
+    const OWNER = "alloutt";  // e.g. "username"
+    const REPO  = "SQL-notes";   // your repo name
+    const BRANCH = "master";             // or "master"
+
+    const itemsEl = document.getElementById("items");
+
+    async function fetchRoot() {
+      const url = `https://api.github.com/repos/${encodeURIComponent(OWNER)}/${encodeURIComponent(REPO)}/contents/?ref=${encodeURIComponent(BRANCH)}`;
+      const res = await fetch(url, {
+        headers: { "Accept": "application/vnd.github.v3+json" }
+      });
+      if (!res.ok) throw new Error(`GitHub API error ${res.status}`);
+      return await res.json();
+    }
+
+    fetchRoot()
+      .then(rootItems => {
+        itemsEl.innerHTML = "";
+        for (const item of rootItems) {
+          const li = document.createElement("li");
+          li.className = "item";
+          const a = document.createElement("a");
+          if (item.type === "file") {
+            a.href = `https://github.com/${OWNER}/${REPO}/blob/${BRANCH}/${item.path}`;
+            a.textContent = item.name + " (view)";
+            a.target = "_blank";
+          } else if (item.type === "dir") {
+            a.href = `https://github.com/${OWNER}/${REPO}/tree/${BRANCH}/${item.path}`;
+            a.textContent = item.name + " ↳";
+            a.target = "_blank";
+          }
+          li.appendChild(a);
+          itemsEl.appendChild(li);
+        }
+      })
+      .catch(err => {
+        itemsEl.innerHTML = `<li><pre>Failed: ${err.message}</pre></li>`;
+      });
+  </script>
+</body>
+</html>
