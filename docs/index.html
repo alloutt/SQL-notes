@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Repository Browser</title>
-  <meta name="description" content="Minimal browser for files in this public GitHub repository.">
+  <meta name="description" content="Minimal GitHub Pages repository browser for Markdown, text, HTML, JSON, XML and source files.">
   <link rel="stylesheet" href="./app.css">
 </head>
 <body>
@@ -12,32 +12,54 @@
   <header class="topbar">
     <div>
       <h1>Repository Browser</h1>
-      <p class="subtitle" id="repo-label">Detecting repository…</p>
+      <p class="subtitle">Browse repository files directly from GitHub Pages.</p>
     </div>
-    <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch theme">Theme</button>
+    <button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark mode">Theme</button>
   </header>
 
   <main class="layout">
-    <aside class="sidebar" aria-label="Repository file tree">
-      <div class="status" id="status" aria-live="polite">Loading…</div>
+    <aside class="sidebar" aria-label="Repository navigation">
+      <form class="repo-form" id="repo-form">
+        <label>
+          <span>Owner</span>
+          <input id="owner" name="owner" type="text" placeholder="username or org" required>
+        </label>
+        <label>
+          <span>Repository</span>
+          <input id="repo" name="repo" type="text" placeholder="repo-name" required>
+        </label>
+        <label>
+          <span>Branch</span>
+          <input id="branch" name="branch" type="text" placeholder="main" value="main" required>
+        </label>
+        <label>
+          <span>Base path</span>
+          <input id="basePath" name="basePath" type="text" placeholder="optional folder, e.g. content">
+        </label>
+        <button type="submit" class="primary-btn">Load repository</button>
+      </form>
+
       <label class="search-box">
-        <span>Filter</span>
-        <input id="filter" type="search" placeholder="Search current tree">
+        <span>Filter loaded items</span>
+        <input id="filter" type="search" placeholder="Search file or folder name">
       </label>
+
+      <div class="status" id="status" aria-live="polite">Enter repository details to begin.</div>
       <nav class="tree" id="tree"></nav>
     </aside>
 
     <section class="viewer-wrap">
       <div class="viewer-head">
         <div>
-          <div class="crumbs" id="breadcrumbs">/</div>
-          <h2 id="file-title">Repository root</h2>
+          <div class="crumbs" id="breadcrumbs">No repository loaded</div>
+          <h2 id="file-title">Welcome</h2>
         </div>
         <div class="actions" id="actions"></div>
       </div>
       <article class="viewer" id="content">
         <div class="empty-state">
-          <p>Loading repository contents.</p>
+          <p>Load a public GitHub repository to browse Markdown, text, JSON, XML, HTML, and common source files.</p>
+          <p class="muted">Tip: place this app in <code>docs/</code> and enable GitHub Pages from that folder.</p>
         </div>
       </article>
     </section>
