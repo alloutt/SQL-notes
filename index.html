@@ -26,26 +26,29 @@
 
     const itemsEl = document.getElementById("items");
 
-    async function fetchRoot() {
-      const url = `https://api.github.com/repos/${encodeURIComponent(OWNER)}/${encodeURIComponent(REPO)}/contents/?ref=${encodeURIComponent(BRANCH)}`;
-      const res = await fetch(url, {
-        headers: { "Accept": "application/vnd.github.v3+json" }
-      });
-      if (!res.ok) throw new Error(`GitHub API error ${res.status}`);
-      return await res.json();
-    }
+   async function fetchTree() {
+  const url = `https://api.github.com/repos/${encodeURIComponent(OWNER)}/${encodeURIComponent(REPO)}/git/trees/${encodeURIComponent(BRANCH)}?recursive=1`;
+  const res = await fetch(url, {
+    headers: { "Accept": "application/vnd.github+json" }
+  });
+  if (!res.ok) throw new Error(`GitHub API error ${res.status}`);
+  const data = await res.json();
+  return data.tree || [];
+}
+fetchTree()
+  .then(items => {
+    itemsEl.innerHTML = "";
 
-    fetchRoot()
-      .then(rootItems => {
-        itemsEl.innerHTML = "";
-        for (const item of rootItems) {
-          const li = document.createElement("li");
-          li.className = "item";
-          const a = document.createElement("a");
-         if (item.type === "file") {
-  const ext = item.name.includes(".") ? item.name.split(".").pop().toLowerCase() : "";
+    for (const item of items) {
+      if (item.type !== "blob") continue;
 
-  if (ext === "html" || ext === "htm") {
+      const li = document.createElement("li");
+      li.className = "item";
+
+      const a = document.createElement("a");
+      const ext = item.path.includes(".") ? item.path.split(".").pop().toLowerCase() : "";
+
+      if (ext === "html" || ext === "htm") {
     a.href = `https://${OWNER}.github.io/${REPO}/${item.path}`;
     a.textContent = item.name + " (open page)";
   } else if (["txt", "json", "xml", "yml", "yaml", "js", "css"].includes(ext)) {
@@ -56,19 +59,16 @@
     a.textContent = item.name + " (view)";
   }
 
-  a.target = "_blank";
-}else if (item.type === "dir") {
-            a.href = `https://github.com/${OWNER}/${REPO}/tree/${BRANCH}/${item.path}`;
-            a.textContent = item.name + " ↳";
-            a.target = "_blank";
-          }
-          li.appendChild(a);
-          itemsEl.appendChild(li);
-        }
-      })
-      .catch(err => {
-        itemsEl.innerHTML = `<li><pre>Failed: ${err.message}</pre></li>`;
-      });
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+
+      li.appendChild(a);
+      itemsEl.appendChild(li);
+    }
+  })
+  .catch(err => {
+    itemsEl.innerHTML = `<li><pre>Failed: ${err.message}</pre></li>`;
+  });
   </script>
 </body>
 </html>
