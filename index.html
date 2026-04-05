@@ -47,16 +47,17 @@ fetchTree()
 
       const a = document.createElement("a");
       const ext = item.path.includes(".") ? item.path.split(".").pop().toLowerCase() : "";
+      const name = item.path.split("/").pop();
 
       if (ext === "html" || ext === "htm") {
     a.href = `https://${OWNER}.github.io/${REPO}/${item.path}`;
-    a.textContent = item.name + " (open page)";
+    a.textContent = name + " (open page)";
   } else if (["txt", "json", "xml", "yml", "yaml", "js", "css"].includes(ext)) {
     a.href = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${item.path}`;
-    a.textContent = item.name + " (raw)";
+    a.textContent = name + " (raw)";
   } else {
     a.href = `https://github.com/${OWNER}/${REPO}/blob/${BRANCH}/${item.path}`;
-    a.textContent = item.name + " (view)";
+    a.textContent = name + " (view)";
   }
 
       a.target = "_blank";
