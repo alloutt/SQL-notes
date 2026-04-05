@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <title>SQL FUNCTION</title>
+    <style>
+        body{
+            font-family:'Poppins';
+        }
+        code:hover {
+          color: greenyellow;
+          background-color: black;
+        }
+    </style>
+</head>
+<body>
+  <h1>  SQL FUNCTION</h1>
+  <I>--follwing are Mysql syntax,may vary in other dbs--||REFER OFFICIAL MYSQL ORACLE WEBSITE FOR MORE FUNCTION ||</I>
+<h2>SCALAR FUNCTION---</h2>
+
+individual record individual output
+<h3>distinct()</h3>
+---><code>select distinct * from dept;</code><br> ---<code>select distinct(1col) from dept;</code> <br>----<code>select distinct col1,col2 from dept;</code>
+<h3>trim()</h3>
+--->remove spaces of side not between
+		|_-> rtrim()---->
+    |_-> ltrim()---->
+<h3>length()</h3>
+---->counds string length
+<h3>replace(),replicate()<i>//in oracle//</i></h3>
+--->select ename,replace(ename,'an','en') from dept; <br>-----select *,replace(name,'o','u') from tp;
+<h3>reverse()</h3>
+---> select ename,reverse(ename) from emp;<i>--also works on numbers--</i>
+<h3>repeat()</h3>
+--->select enmae,repeat(ename,3) from emp;
+<h3>date*******</h3>
+
+	now()--->select now();--current time<br>
+	current_date()---><br>
+	current_time()---><br>
+	current_timestamp()---><br>
+  adddate()-->skips n number of dates--->select empid,ename,doj,adddate(columnnamee,3) from emp;<br>
+  																			select empid,ename,doj,adddate(columnnamee,interval 1 year) from emp;<br>
+                                        select empid,ename,doj,adddate(columnnamee,-3) from emp;<br>
+	datediff()--><br>
+  year(),month(),day(),hour(),minute(),second()--><br>
+  <h3>coalesce(col1,col2,col3,...,'string')</h3>
+-->
+<h3>spit()</h3>
+
+<h3>substring_index()</h3>
+--> select substring_index(email,'@',1) from tp;<br>
+											select substring_index(email,'@',-1) from tp;
+                                            <h3>concat()</h3>
+--->concat(col,col1,col2,'string')
+<h3>nvl()</h3>
+:oracle ifnull(col1,col2):mysql---->select *,ifnull(name,0) from emp;<br>--select cid,cname,ifnull(city1,city2) as city from dept;<i><b>//accpts only 2 expressions//use coalesce</b></i><br>
+____________________________________________
+<h2>GROUP BY FUNCTION----</h2><i>all rows process single output</i>
+
+
+<h3>max()<br>
+    min()<br>
+    avg()<br>
+    sum()<br>
+    count()</h3>
+
+</body>
+</html>
